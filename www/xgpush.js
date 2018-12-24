@@ -61,7 +61,7 @@ function XGPush() {
                 try {
                     var objs=JSON.parse(event.customContent);
                     event.customContent=objs;
-                    event.customContent=Object.assign(...objs);
+//                    event.customContent=Object.assign(...objs);
                 } catch (error) {
 
                 }
@@ -92,7 +92,7 @@ function XGPush() {
                         try {
                             var objs=JSON.parse(event.customContent);
                             event.customContent=objs;
-                            event.customContent=Object.assign(...objs);
+//                            event.customContent=Object.assign(...objs);
                         } catch (error) {
     
                         }

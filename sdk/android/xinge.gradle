@@ -1,0 +1,31 @@
+android {
+    defaultConfig {
+//        ndk {
+//            abiFilters 'armeabi', 'armeabi-v7a'
+//        }
+        manifestPlaceholders = [
+
+                XG_ACCESS_ID : "$XG_ACCESS_ID",
+                XG_ACCESS_KEY: "$XG_ACCESS_KEY",
+                MI_PUSH_ID   : "$MI_PUSH_ID",
+                MI_PUSH_KEY  : "$MI_PUSH_KEY",
+                MZ_PUSH_ID   : "$MZ_PUSH_ID",
+                MZ_PUSH_KEY  : "$MZ_PUSH_KEY",
+                HW_APPID     : "$HW_APPID"
+        ]
+    }
+}
+
+dependencies {
+    //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
+    implementation 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
+//    compile 'com.tencent.xinge:xinge:4.0.3-Release'
+    //jg包
+    implementation 'com.tencent.jg:jg:1.1'
+    //wup包
+    implementation 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包，minSdkVersion 14
+    implementation 'com.tencent.mid:mid:4.0.7-Release'
+
+    implementation 'com.android.support:support-v4:27.0.1'
+}

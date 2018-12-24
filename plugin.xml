@@ -8,11 +8,11 @@
   <repo>https://github.com/sunlu/cordova-plugin-xgpush.git</repo>
   <issue>https://github.com/sunlu/cordova-plugin-xgpush/issues</issue>
    
-  <preference name="ACCESS_ID" />
-  <preference name="ACCESS_KEY" />
-  <preference name="IOS_ACCESS_ID" />
-  <preference name="IOS_ACCESS_KEY" />
-  
+  <!--<preference name="ACCESS_ID" />-->
+  <!--<preference name="ACCESS_KEY" />-->
+  <!--<preference name="IOS_ACCESS_ID" />-->
+  <!--<preference name="IOS_ACCESS_KEY" />-->
+  <!---->
   <js-module name="xgpush" src="www/xgpush.js">
     <clobbers target="xgpush" />
   </js-module>
@@ -30,7 +30,7 @@
     <source-file src="src/android/XGPushReceiver.java" target-dir="src/net/sunlu/xgpush" />
     <source-file src="src/android/XGPushCallback.java" target-dir="src/net/sunlu/xgpush" />
     <!-- Tencent XGPush SDK  -->
-   <framework src="sdk/android/build-extras.gradle" custom="true" type="gradleReference" />
+   <framework src="sdk/android/xinge.gradle" custom="true" type="gradleReference" />
   </platform>
   <!-- ios -->
   <platform name="ios">

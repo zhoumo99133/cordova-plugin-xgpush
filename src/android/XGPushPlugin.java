@@ -8,6 +8,7 @@ import org.apache.cordova.LOG;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.tencent.android.otherPush.StubAppUtils;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGLocalMessage;
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -32,13 +33,23 @@ public class XGPushPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         context = cordova.getActivity().getApplicationContext();
-        // XGPushConfig.setMiPushAppId(context, 小米appid);
-        // XGPushConfig.setMiPushAppKey(context, 小米appkey);
-        // XGPushConfig.setHuaweiDebug(true);
-        // XGPushConfig.setMzPushAppId(context, 魅族appid);
-        // XGPushConfig.setMzPushAppKey(context, 魅族appkey);
-        // XGPushConfig.enableOtherPush(context, true);
-    
+        XGPushConfig.enableDebug(context,true);
+        String miAppId = preferences.getString("MI_PUSH_ID", null);
+        String miAppKey = preferences.getString("MI_PUSH_KEY", null);
+        String mzAppId = preferences.getString("MZ_PUSH_ID", null);
+        String mzAppKey = preferences.getString("MZ_PUSH_KEY", null);
+        if (miAppId == null || miAppKey == null || mzAppId == null || mzAppKey == null) {
+            Log.e(TAG, "厂商ID未填写");
+        } else {
+            StubAppUtils.attachBaseContext(cordova.getContext().getApplicationContext());
+            XGPushConfig.enableOtherPush(cordova.getContext().getApplicationContext(), true);
+            XGPushConfig.setHuaweiDebug(true);
+            XGPushConfig.setMiPushAppId(cordova.getContext().getApplicationContext(), miAppId);
+            XGPushConfig.setMiPushAppKey(cordova.getContext().getApplicationContext(), miAppKey);
+            XGPushConfig.setMzPushAppId(cordova.getContext(), mzAppId);
+            XGPushConfig.setMzPushAppKey(cordova.getContext(), mzAppKey);
+        }
+
     }
 
     @Override
@@ -55,7 +66,7 @@ public class XGPushPlugin extends CordovaPlugin {
             return true;
         }
         if ("unRegisterPush".equals(action)) {
-            unRegisterPush(callbackContext);
+            unRegisterPush(data,callbackContext);
             return true;
         }
         if ("setTag".equals(action)) {
@@ -82,7 +93,7 @@ public class XGPushPlugin extends CordovaPlugin {
             setAccessInfo(data, callbackContext);
             return true;
         }
-        if("getLaunchInfo".equals(action)){
+        if ("getLaunchInfo".equals(action)) {
             getLaunchInfo(callbackContext);
             return true;
         }
@@ -149,7 +160,7 @@ public class XGPushPlugin extends CordovaPlugin {
                         XGPushManager.registerPush(context, reply);
                     } else {
                         Log.d(TAG, "> register private:" + account);
-                        XGPushManager.registerPush(context, account, reply);
+                        XGPushManager.bindAccount(context, account, reply);
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "register error:" + e.toString());
@@ -160,11 +171,26 @@ public class XGPushPlugin extends CordovaPlugin {
     }
 
 
-    private void unRegisterPush(final CallbackContext callback) {
+    private void unRegisterPush(final JSONArray data, final CallbackContext callback) {
         cordova.getThreadPool().execute(new Runnable() {
             @Override
             public void run() {
-                XGPushManager.unregisterPush(context);
+                try {
+                    String account = (data != null && data.length() > 0) ? data.getString(0) : null;
+                    XGIOperateCallback reply = new XGPushCallback(callback);
+
+                    if (TextUtils.isEmpty(account)) {
+                        Log.d(TAG, "> unregister public");
+                        XGPushManager.unregisterPush(context);
+                        callback.success();
+                    } else {
+                        Log.d(TAG, "> unregister private:" + account);
+                        XGPushManager.delAccount(context, account, reply);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "unregister error:" + e.toString());
+                    callback.error(e.getMessage());
+                }
             }
         });
     }
@@ -235,7 +261,7 @@ public class XGPushPlugin extends CordovaPlugin {
         }
     }
 
-    private void getLaunchInfo(CallbackContext callback){
+    private void getLaunchInfo(CallbackContext callback) {
         XGPushClickedResult click = XGPushManager.onActivityStarted(cordova.getActivity());
         callback.success(XGPushReceiver.convertClickedResult(click));
     }

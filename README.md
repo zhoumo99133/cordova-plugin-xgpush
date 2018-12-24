@@ -13,11 +13,11 @@
 |小米|当app在前台时，点击通知不会回调onNotifactionClickedResult 方法|在onNewIntent中接收小米的回调数据|
 |华为|当app退出或者杀进程后，点击通知打开app，调用，getLaunchInfo发回为空|自己新建一个专门接收华为点击广播的接收器，在接收器中把传递来的数据存在跨进程（Mode=MODE_MULTI_PROCESS）的SharedPreferences，然后在getLaunchInfo中去取出来
 
->1.手动删除`工程目录/plugins/cordova-plugin-xgpush/sdk/android/build-extras.gradle`,里面的注释和添加相应配置。
+>1.手动删除`工程目录/plugins/cordova-plugin-xgpush/sdk/android/xinge.gradle和添加相应配置。
 
 >2.手动删除`工程目录/plugins/cordova-plugin-xgpush/src/android/XGPushPlugin.java`,里面35到50行的注释和添加相应配置。
 
->3.手动删除`工程目录/platforms/android/cordova-plugin-xgpush/*-build-extras.gradle`,里面的注释和添加相应配置。
+>3.手动删除`工程目录/platforms/android/cordova-plugin-xgpush/*-xinge.gradle和添加相应配置。
 
 >4.手动删除`工程目录/platforms/android/src/net/sunlu/xgpush/XGPushPlugin.java`,里面35到50行的注释和添加相应配置。
 
@@ -31,6 +31,7 @@ ios     | 3.3.1
 打开控制台，进入 Cordova 项目目录，输入：
 
 ```bash
+npm install xml2js
 cordova plugin add https://github.com/huangliop/cordova-plugin-xgpush-hl.git --variable ACCESS_ID="Your ANDROID ID" --variable ACCESS_KEY="Your ANDROID Key" --variable IOS_ACCESS_ID="Your ID" --variable IOS_ACCESS_KEY="Your Key" 
 ```
 ## iOS 特别处理
@@ -69,7 +70,7 @@ iOS版本需要在xCode里面手动开启，[Push Notifications]和[Background M
 方法|方法名|参数说明|成功回调|失败回调
 ------------------------------------|------------------|---------------------------------------------------|--------|--------
 registerPush(account,success,error) | 绑定账号注册     | account：绑定的账号，绑定后可以针对账号发送推送消息|{data:"设备的token"}|{data:"",code:"",message:""} //android Only
-unRegisterPush(success,error)       | 反注册           |account：绑定的账号|{flag:0}|{flag:0}
+unRegisterPush(account,success,error)       | 反注册           |account：绑定的账号|{flag:0}|{flag:0}
 setTag(tagName)       | 设置标签         | tagName：待设置的标签名称
 deleteTag(tagName)    | 删除标签         | tagName：待设置的标签名称
 addLocalNotification(type,title,content,success,error) | 添加本地通知| type:1通知，2消息 title:标题 content:内容
