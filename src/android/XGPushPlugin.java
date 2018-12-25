@@ -19,9 +19,11 @@ import com.tencent.android.tpush.XGPushManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-
 
 public class XGPushPlugin extends CordovaPlugin {
 
@@ -34,20 +36,26 @@ public class XGPushPlugin extends CordovaPlugin {
         super.initialize(cordova, webView);
         context = cordova.getActivity().getApplicationContext();
         XGPushConfig.enableDebug(context,true);
-        String miAppId = preferences.getString("MI_PUSH_ID", null);
-        String miAppKey = preferences.getString("MI_PUSH_KEY", null);
-        String mzAppId = preferences.getString("MZ_PUSH_ID", null);
-        String mzAppKey = preferences.getString("MZ_PUSH_KEY", null);
-        if (miAppId == null || miAppKey == null || mzAppId == null || mzAppKey == null) {
-            Log.e(TAG, "厂商ID未填写");
-        } else {
-            StubAppUtils.attachBaseContext(cordova.getContext().getApplicationContext());
-            XGPushConfig.enableOtherPush(cordova.getContext().getApplicationContext(), true);
-            XGPushConfig.setHuaweiDebug(true);
-            XGPushConfig.setMiPushAppId(cordova.getContext().getApplicationContext(), miAppId);
-            XGPushConfig.setMiPushAppKey(cordova.getContext().getApplicationContext(), miAppKey);
-            XGPushConfig.setMzPushAppId(cordova.getContext(), mzAppId);
-            XGPushConfig.setMzPushAppKey(cordova.getContext(), mzAppKey);
+        try {
+            ApplicationInfo  appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+            Bundle metaData = appInfo.metaData;
+            String miAppId = metaData.getString("MI_PUSH_ID", null);
+            String miAppKey = metaData.getString("MI_PUSH_KEY", null);
+            String mzAppId = metaData.getString("MZ_PUSH_ID", null);
+            String mzAppKey = metaData.getString("MZ_PUSH_KEY", null);
+            if (miAppId == null || miAppKey == null || mzAppId == null || mzAppKey == null) {
+                Log.e(TAG, "厂商ID未填写");
+            } else {
+                StubAppUtils.attachBaseContext(cordova.getContext().getApplicationContext());
+                XGPushConfig.enableOtherPush(cordova.getContext().getApplicationContext(), true);
+                XGPushConfig.setHuaweiDebug(true);
+                XGPushConfig.setMiPushAppId(cordova.getContext().getApplicationContext(), miAppId);
+                XGPushConfig.setMiPushAppKey(cordova.getContext().getApplicationContext(), miAppKey);
+                XGPushConfig.setMzPushAppId(cordova.getContext(), mzAppId);
+                XGPushConfig.setMzPushAppKey(cordova.getContext(), mzAppKey);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
