@@ -7,17 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42d317eb-225e-42e2-94ce-32e306cccefb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/scripts/lib/configXmlReader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/lib/xmlHelper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/plugin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/after_plugin_add.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/after_plugin_add.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdk/android/build-extras.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/sdk/android/xinge.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdk/ios/ReleaseNotes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/sdk/ios/ReleaseNotes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdk/ios/XGPush.h" beforeDir="false" afterPath="$PROJECT_DIR$/sdk/ios/XGPush.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdk/ios/libXG-SDK.a" beforeDir="false" afterPath="$PROJECT_DIR$/sdk/ios/libXG-SDK.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/android/XGPushPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/android/XGPushPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/www/xgpush.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/xgpush.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -92,12 +82,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor relative-caret-position="271">
-                <caret line="86" selection-start-line="86" selection-end-line="86" />
+              <first_editor relative-caret-position="78">
+                <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
               </first_editor>
               <second_editor>
                 <markdownNavigatorState />
@@ -115,11 +105,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="xinge.gradle" pinned="false" current-in-tab="true">
+      <file leaf-file-name="xinge.gradle" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sdk/android/xinge.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="30" column="1" lean-forward="true" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+            <state relative-caret-position="391">
+              <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -147,20 +137,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/plugin.xml" />
         <option value="$PROJECT_DIR$/scripts/after_plugin_add.js" />
         <option value="$PROJECT_DIR$/www/xgpush.js" />
         <option value="$PROJECT_DIR$/src/android/XGPushPlugin.java" />
         <option value="$PROJECT_DIR$/sdk/android/xinge.gradle" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="144" />
-    <option name="width" value="1080" />
-    <option name="height" value="1897" />
+    <option name="x" value="240" />
+    <option name="y" value="1103" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -311,7 +301,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="144" width="1080" height="1897" extended-state="6" />
+    <frame x="240" y="1103" width="1680" height="1027" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -324,7 +314,7 @@
       <window_info anchor="bottom" id="Terminal" />
       <window_info id="Capture Tool" />
       <window_info id="Designer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24929178" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.159132" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32916668" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Theme Preview" />
@@ -363,18 +353,6 @@
     <entry file="file://$PROJECT_DIR$/src/ios/AppDelegate+CDVXGPush.m">
       <provider selected="true" editor-type-id="text-editor">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="271">
-            <caret line="86" selection-start-line="86" selection-end-line="86" />
-          </first_editor>
-          <second_editor>
-            <markdownNavigatorState />
-          </second_editor>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/android/XGPushCallback.java">
@@ -436,8 +414,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sdk/android/xinge.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="1" lean-forward="true" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+        <state relative-caret-position="391">
+          <caret line="23" column="42" lean-forward="true" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="78">
+            <caret line="34" lean-forward="true" selection-start-line="34" selection-end-line="34" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
         </state>
       </provider>
     </entry>
