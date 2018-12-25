@@ -59,7 +59,7 @@ ios     | 3.3.1
 4. 添加插件:
 
   ```sh
-  cordova plugin https://github.com/zhoumo99133/cordova-plugin-xgpush.git
+  cordova plugin add https://github.com/zhoumo99133/cordova-plugin-xgpush.git
   ```
 
 ## iOS 特别处理
