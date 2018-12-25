@@ -28,11 +28,10 @@
         </config-file>
 
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
-
-            <meta-data android:name="MI_PUSH_ID" />
-            <meta-data android:name="MI_PUSH_KEY" />
-            <meta-data android:name="MZ_PUSH_ID" />
-            <meta-data android:name="MZ_PUSH_KEY" />
+            <meta-data android:name="MI_PUSH_ID" android:value="${MI_PUSH_ID}" />
+            <meta-data android:name="MI_PUSH_KEY" android:value="${MI_PUSH_KEY}" />
+            <meta-data android:name="MZ_PUSH_ID" android:value="${MZ_PUSH_ID}" />
+            <meta-data android:name="MZ_PUSH_KEY" android:value="${MZ_PUSH_KEY}" />
         </config-file>
 
         <source-file src="src/android/XGPushPlugin.java" target-dir="src/net/sunlu/xgpush" />
