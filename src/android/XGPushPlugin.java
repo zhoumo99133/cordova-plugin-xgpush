@@ -39,11 +39,11 @@ public class XGPushPlugin extends CordovaPlugin {
         try {
             ApplicationInfo  appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
             Bundle metaData = appInfo.metaData;
-            String miAppId = metaData.getString("MI_PUSH_ID", null);
-            String miAppKey = metaData.getString("MI_PUSH_KEY", null);
-            String mzAppId = metaData.getString("MZ_PUSH_ID", null);
-            String mzAppKey = metaData.getString("MZ_PUSH_KEY", null);
-            if (miAppId == null || miAppKey == null || mzAppId == null || mzAppKey == null) {
+            String miAppId = metaData.getString("MI_PUSH_ID", null).trim();
+            String miAppKey = metaData.getString("MI_PUSH_KEY", null).trim();
+            String mzAppId = metaData.getString("MZ_PUSH_ID", null).trim();
+            String mzAppKey = metaData.getString("MZ_PUSH_KEY", null).trim();
+            if (TextUtils.isEmpty(miAppId) || TextUtils.isEmpty(miAppKey) || TextUtils.isEmpty(mzAppId) || TextUtils.isEmpty(mzAppKey)) {
                 Log.e(TAG, "厂商ID未填写");
             } else {
                 StubAppUtils.attachBaseContext(cordova.getContext().getApplicationContext());

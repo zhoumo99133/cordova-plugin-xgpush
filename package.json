@@ -16,12 +16,12 @@
   ],  
   "repository": {
     "type": "git",
-    "url": "https://github.com/huangliop/cordova-plugin-xgpush-hl"
+    "url": "https://github.com/zhoumo99133/cordova-plugin-xgpush"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/huangliop/cordova-plugin-xgpush-hl/issues"
+    "url": "https://github.com/zhoumo99133/cordova-plugin-xgpush/issues"
   },
-  "homepage": "https://github.com/huangliop/cordova-plugin-xgpush-hl#readme"
+  "homepage": "https://github.com/zhoumo99133/cordova-plugin-xgpush#readme"
 }
