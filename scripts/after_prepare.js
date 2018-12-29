@@ -23,17 +23,23 @@ module.exports = function (ctx) {
     var idStr = configContent['id'];
     var splits = idStr.split(".");
     var name = splits[splits.length - 1];
-    var preferences = configContent['preference'];
+    var platforms = configContent['platform'];
     var xgId = '';
     var xgKey = '';
     var hwId = '';
-    for (var i in preferences) {
-        if (preferences[i].name == 'XG_ACCESS_ID') {
-            xgId = preferences[i].value;
-        } else if (preferences[i].name == 'XG_ACCESS_KEY') {
-            xgKey = preferences[i].value;
-        } else if (preferences[i].name == 'HW_APP_ID') {
-            hwId = preferences[i].value;
+    for (var i in platforms) {
+        if (platforms[i].name == 'android') {
+            var preferences = platforms[i]['preference'];
+            for (var i in preferences) {
+                if (preferences[i].name == 'XG_ACCESS_ID') {
+                    xgId = preferences[i].value;
+                } else if (preferences[i].name == 'XG_ACCESS_KEY') {
+                    xgKey = preferences[i].value;
+                } else if (preferences[i].name == 'HW_APP_ID') {
+                    hwId = preferences[i].value;
+                }
+            }
+            break;
         }
     }
 
@@ -49,11 +55,11 @@ module.exports = function (ctx) {
 
         var xgIdReg = /XG_ACCESS_ID\s*:\s*"([A-Za-z0-9]*)"/g;
         var xgKeyReg = /XG_ACCESS_KEY\s*:\s*"([A-Za-z0-9]*)"/g;
-        var hwIdReg = /HW_APP_ID\s*:\s*"([A-Za-z0-9]*)"/g;
+        var hwIdReg = /HW_APPID\s*:\s*"([A-Za-z0-9]*)"/g;
         var result =
             data.replace(xgIdReg, 'XG_ACCESS_ID:"' + xgId + '"')
                 .replace(xgKeyReg, 'XG_ACCESS_KEY:"' + xgKey + '"')
-                .replace(hwIdReg, 'HW_APP_ID:"' + hwId + '"');
+                .replace(hwIdReg, 'HW_APPID:"' + hwId + '"');
         printLog(result);
         fs.writeFile(gradleFile, result, 'utf8', function (err) {
             if (err) throw err;

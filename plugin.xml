@@ -9,8 +9,6 @@
     <repo>https://github.com/sunlu/cordova-plugin-xgpush.git</repo>
     <issue>https://github.com/sunlu/cordova-plugin-xgpush/issues</issue>
 
-    <preference name="IOS_ACCESS_ID" />
-    <preference name="IOS_ACCESS_KEY" />
     <!---->
     <js-module name="xgpush" src="www/xgpush.js">
         <clobbers target="xgpush" />
@@ -38,14 +36,6 @@
                 <param name="ios-package" value="CDVXGPushPlugin" />
                 <param name="onload" value="true" />
             </feature>
-        </config-file>
-        <config-file parent="XGPushMeta" target="*-Info.plist">
-            <dict>
-                <key>AccessID</key>
-                <integer>$IOS_ACCESS_ID</integer>
-                <key>AccessKey</key>
-                <string>$IOS_ACCESS_KEY</string>
-            </dict>
         </config-file>
         <!-- Tencent XGPush SDK -->
         <header-file src="sdk/ios/XGPush.h" />

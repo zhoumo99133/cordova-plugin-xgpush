@@ -22,27 +22,41 @@
 
 3. 添加推送平台配置项,修改根目录当config.xml,添加各个平台的id和key(小米的appID 和appKEY前需要加XM)，如下：
   ```xml
-    <preference name="XG_ACCESS_ID" value=""/>
-    <preference name="XG_ACCESS_KEY" value="" />
-    <preference name="XM_APP_ID"  value=""/>
-    <preference name="XM_APP_KEY" value="" />
-    <preference name="MZ_APP_ID"  value=""/>
-    <preference name="MZ_APP_KEY"  value=""/>
-    <preference name="HW_APP_ID" value="" />
-    <preference name="IOS_ACCESS_ID" value="" />
-    <preference name="IOS_ACCESS_KEY" value="" />
+    <platform name="android">
+        <preference name="XG_ACCESS_ID" value="" />
+        <preference name="XG_ACCESS_KEY" value="" />
+        <preference name="XM_APP_ID" value="" />
+        <preference name="XM_APP_KEY" value="" />
+        <preference name="MZ_APP_ID" value="" />
+        <preference name="MZ_APP_KEY" value="" />
+        <preference name="HW_APP_ID" value="" />
+    </platform>
+    <platform name="ios">
+        <config-file parent="XGPushMeta" target="*-Info.plist">
+            <dict>
+                <key>AccessID</key>
+                <integer></integer>
+                <key>AccessKey</key>
+                <string></string>
+            </dict>
+        </config-file>
+    </platform>
   ```
 
 4. 添加插件:
 
   ```sh
-  cordova plugin add https://github.com/zhoumo99133/cordova-plugin-xgpush.git   --variable IOS_ACCESS_ID=value --variable IOS_ACCESS_KEY=value
+  cordova plugin add https://github.com/zhoumo99133/cordova-plugin-xgpush.git
   ```
 
 ## iOS 特别处理
 
+iOS需要在根目录的config.xml
+
 iOS版本需要在xCode里面手动开启，[Push Notifications]和[Background Modes]。方法如下
 [http://xg.qq.com/docs/ios_access/ios_access_guide.html](http://xg.qq.com/docs/ios_access/ios_access_guide.html)
+
+
 
 ## 示例
 ```js
