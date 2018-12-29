@@ -19,7 +19,7 @@ module.exports = function (ctx) {
     logStart();
 
     var configContent = configXmlReader.getConfigContent(ctx);
-    printLog(JSON.stringify(configContent));
+//    printLog(JSON.stringify(configContent));
     var idStr = configContent['id'];
     var splits = idStr.split(".");
     var name = splits[splits.length - 1];
@@ -60,7 +60,7 @@ module.exports = function (ctx) {
             data.replace(xgIdReg, 'XG_ACCESS_ID:"' + xgId + '"')
                 .replace(xgKeyReg, 'XG_ACCESS_KEY:"' + xgKey + '"')
                 .replace(hwIdReg, 'HW_APPID:"' + hwId + '"');
-        printLog(result);
+//        printLog(result);
         fs.writeFile(gradleFile, result, 'utf8', function (err) {
             if (err) throw err;
             printLog("替换pushid 完成")
