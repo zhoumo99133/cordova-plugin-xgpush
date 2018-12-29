@@ -5,21 +5,17 @@ android {
 //        }
         manifestPlaceholders = [
 
-                XG_ACCESS_ID : "$XG_ACCESS_ID",
-                XG_ACCESS_KEY: "$XG_ACCESS_KEY",
-                MI_PUSH_ID   : "$MI_PUSH_ID",
-                MI_PUSH_KEY  : "$MI_PUSH_KEY",
-                MZ_PUSH_ID   : "$MZ_PUSH_ID",
-                MZ_PUSH_KEY  : "$MZ_PUSH_KEY",
-                HW_APPID     : "$HW_APPID"
+                XG_ACCESS_ID : "",
+                XG_ACCESS_KEY: "",
+                HW_APPID     : ""
         ]
     }
 }
 
 dependencies {
     //信鸽jar，包含厂商通道(此版本已经集成厂商通道，无需另外导入厂商依赖包)
-    implementation 'com.tencent.xinge:xinge:4.0.3-otherpush-Release'
-//    compile 'com.tencent.xinge:xinge:4.0.3-Release'
+    implementation 'com.tencent.xinge:xinge:4.0.4-otherpush-release'
+//    compile 'com.tencent.xinge:xinge:4.0.4-Release'
     //jg包
     implementation 'com.tencent.jg:jg:1.1'
     //wup包

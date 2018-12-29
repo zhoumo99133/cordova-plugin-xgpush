@@ -1,12 +1,10 @@
 package net.sunlu.xgpush;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaWebView;
-import org.apache.cordova.LOG;
-import org.json.JSONArray;
-import org.json.JSONException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.tencent.android.otherPush.StubAppUtils;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -16,14 +14,13 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushConstants;
 import com.tencent.android.tpush.XGPushManager;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class XGPushPlugin extends CordovaPlugin {
 
@@ -35,20 +32,16 @@ public class XGPushPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         context = cordova.getActivity().getApplicationContext();
-        XGPushConfig.enableDebug(context,true);
         try {
-            ApplicationInfo  appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
-            Bundle metaData = appInfo.metaData;
-            String miAppId = metaData.getString("MI_PUSH_ID", null).trim();
-            String miAppKey = metaData.getString("MI_PUSH_KEY", null).trim();
-            String mzAppId = metaData.getString("MZ_PUSH_ID", null).trim();
-            String mzAppKey = metaData.getString("MZ_PUSH_KEY", null).trim();
+            String miAppId = preferences.getString("XM_APP_ID", "");
+            String miAppKey = preferences.getString("XM_APP_KEY", "");
+            String mzAppId = preferences.getString("MZ_APP_ID", "");
+            String mzAppKey = preferences.getString("MZ_APP_KEY", "");
             if (TextUtils.isEmpty(miAppId) || TextUtils.isEmpty(miAppKey) || TextUtils.isEmpty(mzAppId) || TextUtils.isEmpty(mzAppKey)) {
                 Log.e(TAG, "厂商ID未填写");
             } else {
                 StubAppUtils.attachBaseContext(cordova.getContext().getApplicationContext());
                 XGPushConfig.enableOtherPush(cordova.getContext().getApplicationContext(), true);
-                XGPushConfig.setHuaweiDebug(true);
                 XGPushConfig.setMiPushAppId(cordova.getContext().getApplicationContext(), miAppId);
                 XGPushConfig.setMiPushAppKey(cordova.getContext().getApplicationContext(), miAppKey);
                 XGPushConfig.setMzPushAppId(cordova.getContext(), mzAppId);
@@ -74,7 +67,7 @@ public class XGPushPlugin extends CordovaPlugin {
             return true;
         }
         if ("unRegisterPush".equals(action)) {
-            unRegisterPush(data,callbackContext);
+            unRegisterPush(data, callbackContext);
             return true;
         }
         if ("setTag".equals(action)) {

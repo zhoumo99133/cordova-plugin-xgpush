@@ -1,31 +1,5 @@
 # 腾讯信鸽推送 for Cordova
 
-**Android 已修改为Gradle打包方式。build的时候可能会拉不下来，请百度‘jcenter 慢’解决**
-
-**本次升级我只验证了click事件和getLaunchInfo功能，如果有其他功能不可用，请提交issue。**
-
-## 关于开启厂商推送通道
-
-***由于厂商通道，目前只支持android 3.2.6版本，经我测试。存在如下BUG，由于不便于插件化，所以我就不支持了。如果你有android开发能力可以更具下面的思路解决，如果没有就也可以等待官方支持4.2.0***
-
-|平台|BUG|解决思路
-|----|---|---|
-|小米|当app在前台时，点击通知不会回调onNotifactionClickedResult 方法|在onNewIntent中接收小米的回调数据|
-|华为|当app退出或者杀进程后，点击通知打开app，调用，getLaunchInfo发回为空|自己新建一个专门接收华为点击广播的接收器，在接收器中把传递来的数据存在跨进程（Mode=MODE_MULTI_PROCESS）的SharedPreferences，然后在getLaunchInfo中去取出来
-
->1.手动删除`工程目录/plugins/cordova-plugin-xgpush/sdk/android/xinge.gradle和添加相应配置。
-
->2.手动删除`工程目录/plugins/cordova-plugin-xgpush/src/android/XGPushPlugin.java`,里面35到50行的注释和添加相应配置。
-
->3.手动删除`工程目录/platforms/android/cordova-plugin-xgpush/*-xinge.gradle和添加相应配置。
-
->4.手动删除`工程目录/platforms/android/src/net/sunlu/xgpush/XGPushPlugin.java`,里面35到50行的注释和添加相应配置。
-
-SDK     | version
-------- | --------------------------------
-android | 4.2.0
-ios     | 3.3.1
-
 ## 安装方法
 
 打开控制台，进入 Cordova 项目目录，输入：
@@ -46,14 +20,17 @@ ios     | 3.3.1
   npm install xml2js
   ```
 
-3. 添加推送平台配置项,修改根目录当config.xml,添加各个平台的id和key，如下：
+3. 添加推送平台配置项,修改根目录当config.xml,添加各个平台的id和key(小米的appID 和appKEY前需要加XM)，如下：
   ```xml
-    <push-config>
-        <xg id="111" key="21123"/> //信鸽
-        <mz id="312" key="33"/> //魅族
-        <xm id="312" key="33"/> //小米
-        <hw id="312"/> //华为
-    </push-config>
+    <preference name="XG_ACCESS_ID" value=""/>
+    <preference name="XG_ACCESS_KEY" value="" />
+    <preference name="XM_APP_ID"  value=""/>
+    <preference name="XM_APP_KEY" value="" />
+    <preference name="MZ_APP_ID"  value=""/>
+    <preference name="MZ_APP_KEY"  value=""/>
+    <preference name="HW_APP_ID" value="" />
+    <preference name="IOS_ACCESS_ID" value="" />
+    <preference name="IOS_ACCESS_KEY" value="" />
   ```
 
 4. 添加插件:
