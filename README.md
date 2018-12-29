@@ -32,14 +32,14 @@
         <preference name="HW_APP_ID" value="" />
     </platform>
     <platform name="ios">
-        <config-file parent="XGPushMeta" target="*-Info.plist">
+        <edit-config file="*-Info.plist" mode="merge" target="XGPushMeta">
             <dict>
                 <key>AccessID</key>
                 <integer></integer>
                 <key>AccessKey</key>
                 <string></string>
             </dict>
-        </config-file>
+        </edit-config>
     </platform>
   ```
 
