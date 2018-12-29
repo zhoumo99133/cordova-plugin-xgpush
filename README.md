@@ -36,7 +36,7 @@
 4. 添加插件:
 
   ```sh
-  cordova plugin add https://github.com/zhoumo99133/cordova-plugin-xgpush.git
+  cordova plugin add https://github.com/zhoumo99133/cordova-plugin-xgpush.git   --variable IOS_ACCESS_ID=value --variable IOS_ACCESS_KEY=value
   ```
 
 ## iOS 特别处理
