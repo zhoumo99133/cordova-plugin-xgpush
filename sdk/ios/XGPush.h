@@ -126,8 +126,11 @@ typedef NS_OPTIONS(NSUInteger, XGNotificationCategoryOptions) {
  - XGUserNotificationTypeBadge: 支持应用角标
  - XGUserNotificationTypeSound: 支持铃声
  - XGUserNotificationTypeAlert: 支持弹框
- - XGUserNotificationTypeCarPlay: 支持CarPlay
- - XGUserNotificationTypeNewsstandContentAvailability: 支持Newsstand
+ - XGUserNotificationTypeCarPlay: 支持CarPlay,iOS 10.0+
+ - XGUserNotificationTypeCriticalAlert: 支持紧急提醒播放声音, iOS 12.0+
+ - XGUserNotificationTypeProvidesAppNotificationSettings: 让系统在应用内通知设置中显示按钮, iOS 12.0+
+ - XGUserNotificationTypeProvisional: 能够将非中断通知临时发布到 Notification Center, iOS 12.0+
+ - XGUserNotificationTypeNewsstandContentAvailability: 支持 Newsstand, iOS 3.0–8.0
  */
 typedef NS_OPTIONS(NSUInteger, XGUserNotificationTypes) {
 	XGUserNotificationTypeNone = (0),
@@ -135,7 +138,10 @@ typedef NS_OPTIONS(NSUInteger, XGUserNotificationTypes) {
 	XGUserNotificationTypeSound = (1 << 1),
 	XGUserNotificationTypeAlert = (1 << 2),
 	XGUserNotificationTypeCarPlay = (1 << 3),
-	XGUserNotificationTypeNewsstandContentAvailability = (1 << 4) // iOS 8 以下版本支持
+    XGUserNotificationTypeCriticalAlert = (1 << 4),
+    XGUserNotificationTypeProvidesAppNotificationSettings = (1 << 5),
+    XGUserNotificationTypeProvisional = (1 << 6),
+    XGUserNotificationTypeNewsstandContentAvailability = (1 << 3)
 };
 
 /**
@@ -217,7 +223,7 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
  @param type token对象绑定的类型
  @param error token对象绑定的结果信息
  */
-- (void)xgPushDidBindWithIdentifiers:(nonnull NSArray <NSString *> *)identifiers type:(XGPushTokenBindType)type error:(nullable NSError *)error;
+- (void)xgPushDidBindWithIdentifiers:(nonnull NSArray *)identifiers type:(XGPushTokenBindType)type error:(nullable NSError *)error;
 
 /**
  @brief 监控token对象identifiers解绑的情况
@@ -226,7 +232,7 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
  @param type token对象解绑的类型
  @param error token对象解绑的结果信息
  */
-- (void)xgPushDidUnbindWithIdentifiers:(nonnull NSArray <NSString *> *)identifiers type:(XGPushTokenBindType)type error:(nullable NSError *)error;
+- (void)xgPushDidUnbindWithIdentifiers:(nonnull NSArray *)identifiers type:(XGPushTokenBindType)type error:(nullable NSError *)error;
 
 /**
  @brief 监控token对象更新已绑定标识的情况
@@ -235,7 +241,7 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
  @param type token对象更新类型
  @param error token对象更新标识的结果信息
  */
-- (void)xgPushDidUpdatedBindedIdentifiers:(nonnull NSArray <NSString *> *)identifiers bindType:(XGPushTokenBindType)type error:(nullable NSError *)error;
+- (void)xgPushDidUpdatedBindedIdentifiers:(nonnull NSArray *)identifiers bindType:(XGPushTokenBindType)type error:(nullable NSError *)error;
 
 
 /**
@@ -255,6 +261,7 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
  @brief 创建设备token的管理对象，用来管理token的绑定与解绑操作
  
  @return 设备token管理对象
+ @note 此类的 APIs 调用都是以 Token 在信鸽服务上完成注册为前提
  */
 
 + (nonnull instancetype)defaultTokenManager;
@@ -293,34 +300,49 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
  @param type 指定绑定类型
  @return 当前token对象绑定的标识
  */
-- (nullable NSArray<NSString *> *)identifiersWithType:(XGPushTokenBindType)type;
+- (nullable NSArray *)identifiersWithType:(XGPushTokenBindType)type;
 
 /**
  @brief 为token对象设置绑定类型和标识
  
  @param identifiers 指定绑定标识，标签字符串不允许有空格或者是tab字符
  @param type 指定绑定类型
- @note  暂不支持账号类型
+@note 对于账号操作，需要使用json数组，例如：
+ [
+ {"account" : "account1", "account_type" : 1},
+ {"account" : "account2","account_type" : 0}
+ ]
+ 账号类型，请参照： http://xg.qq.com/docs/server_api/v3/push_api_v3.html#账号类型
  */
-- (void)bindWithIdentifiers:(nonnull NSArray <NSString *> *)identifiers type:(XGPushTokenBindType)type;
+- (void)bindWithIdentifiers:(nonnull NSArray *)identifiers type:(XGPushTokenBindType)type;
 
 /**
  @brief 根据类型和标识为token对象解绑
  
  @param identifiers 指定解绑标识，标签字符串不允许有空格或者是tab字符
  @param type 指定解绑类型
- @note 暂不支持账号类型，标签字符串不允许有空格或者是tab字符
+ @note 标签字符串不允许有空格或者是tab字符；对于账号操作，需要使用json数组，例如：
+ [
+ {"account" : "account1", "account_type" : 1},
+ {"account" : "account2","account_type" : 0}
+ ]
+ 账号类型，请参照： http://xg.qq.com/docs/server_api/v3/push_api_v3.html#账号类型
  */
-- (void)unbindWithIdentifers:(nonnull NSArray <NSString *> *)identifiers type:(XGPushTokenBindType)type;
+- (void)unbindWithIdentifers:(nonnull NSArray *)identifiers type:(XGPushTokenBindType)type;
 
 /**
  @brief 根据类型，覆盖原有的标识；若之前没有绑定标识，则会执行新增标识
  
  @param identifiers 标签标识字符串数组，标签字符串不允许有空格或者是tab字符
  @param type 标识类型
- @note 若指定为标签类型，此接口会将当前 Token 对应的旧有的标签全部替换为当前的标签；若指定账号类型，此接口仅取 identifiers 列表中第一个
+ @note 若指定为标签类型，此接口会将当前 Token 对应的旧有的标签全部替换为当前的标签；若指定账号类型，对于账号操作，则需要使用json数组，例如：
+ [
+ {"account" : "account1", "account_type" : 1},
+ {"account" : "account2","account_type" : 0}
+ ]
+ 账号类型，请参照： http://xg.qq.com/docs/server_api/v3/push_api_v3.html#账号类型
  */
-- (void)updateBindedIdentifiers:(nonnull NSArray <NSString *> *)identifiers bindType:(XGPushTokenBindType)type;
+- (void)updateBindedIdentifiers:(nonnull NSArray *)identifiers bindType:(XGPushTokenBindType)type;
 
 /**
  @brief 根据标识类型，清除所有标识
@@ -399,7 +421,7 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
 - (void)xgPushDidSetBadge:(BOOL)isSuccess error:(nullable NSError *)error;
 
 /**
- @brief 注册设备token的回调
+ @brief 设备token注册信鸽服务的回调
  
  @param deviceToken 当前设备的token
  @param error 错误信息
@@ -442,7 +464,13 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
 /**
  @brief 返回信鸽推送服务的状态
  */
-@property (assign, readonly) BOOL xgNotificationStatus;
+@property (assign, readonly) BOOL xgNotificationStatus __deprecated_msg("XG SDK 3.3+, instead, you can use deviceTokenDidRegisteredXGService property");
+
+
+/**
+  @brief 设备在信鸽服务中的是否处于注册状态
+ */
+@property (assign, readonly) BOOL deviceDidRegisteredXG;
 
 /**
  @brief 管理应用角标
