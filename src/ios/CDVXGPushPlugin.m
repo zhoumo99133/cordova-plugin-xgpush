@@ -18,7 +18,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 +(void)setLaunchOptions:(NSDictionary *)theLaunchOptions{
     if(theLaunchOptions){
         NSDictionary *opt=[theLaunchOptions objectForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
-        
+
         NSDictionary *alert=[[opt objectForKey:@"aps"] objectForKey:@"alert"];
         NSMutableDictionary *customContent=[NSMutableDictionary dictionaryWithCapacity:opt.count -2];
         for (NSString *key in opt) {
@@ -37,12 +37,12 @@ static CDVInvokedUrlCommand *currentCommand=nil;
  * 插件初始化
  */
 - (void) pluginInitialize {
- 
+
     [XGPushTokenManager defaultTokenManager].delegate = self;
     uint32_t accessId = [[[[NSBundle mainBundle] objectForInfoDictionaryKey:@"XGPushMeta"] valueForKey:@"AccessID"] intValue];
     NSString* accessKey = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"XGPushMeta"] valueForKey:@"AccessKey"];
     [self startApp:accessId key:accessKey];
-    
+
 }
 
 
@@ -57,10 +57,10 @@ static CDVInvokedUrlCommand *currentCommand=nil;
  */
 - (void) startApp:(uint32_t)assessId key:(NSString*) accessKey {
     NSLog(@"[XGPushPlugin] starting with access id: %u, access key: %@", assessId, accessKey);
-    
+
     [[XGPush defaultManager] startXGWithAppID:assessId appKey:accessKey delegate:self ];
     [[XGPush defaultManager] setXgApplicationBadgeNumber:0];
-    
+
 }
 
 
@@ -70,11 +70,11 @@ static CDVInvokedUrlCommand *currentCommand=nil;
     if(self.callbackId  != nil){
         NSMutableDictionary* newDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:type,@"type",nil];
         [newDict addEntriesFromDictionary:dict];
-        
+
         NSLog(@"[XGPushPlugin] send Message: %@", newDict);
-        
+
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:newDict];
-        
+
         [result setKeepCallback:[NSNumber numberWithBool:YES]];
         [self.commandDelegate sendPluginResult:result callbackId:self.callbackId];
     }
@@ -89,7 +89,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
     NSString* account = [command.arguments objectAtIndex:0];
     currentCommand=command;
     NSLog(@"[XGPushPlugin] registerPush: account = %@, token = %@", account,[[XGPushTokenManager defaultTokenManager] deviceTokenString]);
-    
+
     if ([account respondsToSelector:@selector(length)] && [account length] > 0) {
         NSLog(@"[XGPushPlugin] set account:%@", account);
         [[XGPushTokenManager defaultTokenManager] bindWithIdentifier:account type:XGPushTokenBindTypeAccount];
@@ -109,13 +109,13 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 - (void) getLaunchInfo:(CDVInvokedUrlCommand*)command {
     NSLog(@"[XGPushPlugin] getLaunchInfo");
     CDVPluginResult* result = nil;
-    
+
     if(_luanchOptions){
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_luanchOptions];
     }else{
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
-    
+
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
 }
 
@@ -123,7 +123,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
     currentCommand=command;
     NSString* name = [command.arguments objectAtIndex:0];
     NSLog(@"[XGPushPlugin] setTag: %@", name);
-    
+
     [[XGPushTokenManager defaultTokenManager] bindWithIdentifier:name type:XGPushTokenBindTypeTag];
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
@@ -134,7 +134,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
     currentCommand=command;
     NSString* name = [command.arguments objectAtIndex:0];
     NSLog(@"[XGPushPlugin] deleteTag: %@", name);
-    
+
     [[XGPushTokenManager defaultTokenManager] unbindWithIdentifer:name type:XGPushTokenBindTypeTag];
 }
 
@@ -169,7 +169,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 - (void) setAccessInfo:(CDVInvokedUrlCommand*)command{
     uint32_t accessId = [[command.arguments objectAtIndex:0] intValue];
     NSString* accessKey = [command.arguments objectAtIndex:1];
-    
+
     [self startApp:accessId key:accessKey];
 }
 
@@ -219,11 +219,11 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 // 无论本地推送还是远程推送都会走这个回调
 - (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     NSLog(@"[XGDemo] click notification");
-    
+
     [[XGPush defaultManager] reportXGNotificationResponse:response];
     UNNotificationContent *content= response.notification.request.content;
     NSDictionary *userInfo=content.userInfo;
-    NSMutableDictionary *customContent=[NSMutableDictionary dictionaryWithCapacity:userInfo.count -2];
+    NSMutableDictionary *customContent=[NSMutableDictionary dictionaryWithCapacity:userInfo.count>1?userInfo.count -2:0];
     for (NSString *key in userInfo) {
         if(![key isEqualToString:@"aps"]&![key isEqualToString:@"xg"])[customContent setObject:[userInfo valueForKey:key] forKey:key];
     }
@@ -254,7 +254,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 
 /**
  收到通知消息的回调，通常此消息意味着有新数据可以读取（iOS 7.0+）
- 
+
  @param application  UIApplication 实例
  @param userInfo 推送时指定的参数
  @param completionHandler 完成回调
@@ -269,7 +269,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 
 #pragma mark - XGPushTokenManagerDelegate
 - (void)xgPushDidBindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error {
-    
+
     NSLog(@"%s, id is %@, error %@", __FUNCTION__, identifier, error);
     if(error==nil){
         NSDictionary* data=@{
@@ -283,7 +283,7 @@ static CDVInvokedUrlCommand *currentCommand=nil;
 }
 
 - (void)xgPushDidUnbindWithIdentifier:(NSString *)identifier type:(XGPushTokenBindType)type error:(NSError *)error{
-   
+
     NSLog(@"%s, id is %@, error %@", __FUNCTION__, identifier, error);
     [self sendCallback:error];
 }
