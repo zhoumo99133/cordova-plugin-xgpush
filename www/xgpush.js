@@ -77,7 +77,7 @@ function XGPush() {
     this.setAccessInfo = function (accessId, accessKey, successCallback, errorCallback) {
         exec(successCallback, errorCallback, "XGPush", "setAccessInfo", [accessId, accessKey]);
     };
-    
+
     this.stopNotification = function () {
         exec(null, null, "XGPush", "stopNotification", []);
     };
@@ -85,7 +85,7 @@ function XGPush() {
     channel.onCordovaReady.subscribe(function () {
         exec(
             function (event) {
-                console.log("[XGPush] Event = " + event.type + ": ", event);
+                console.log("[XGPush] Event = " + event.type + ": ", JSON.stringify(event));
                 if (event && (event.type in me.channels)) {
                     //格式化自定义数据集
                     if(event.customContent&&typeof event.customContent ==="string"){
@@ -94,7 +94,7 @@ function XGPush() {
                             event.customContent=objs;
 //                            event.customContent=Object.assign(...objs);
                         } catch (error) {
-    
+
                         }
                     }
                     me.channels[event.type].fire(event);
