@@ -29,7 +29,7 @@ function XGPush() {
   };
 
   this.registerPush = function (account, successCallback, errorCallback) {
-    exec(successCallback, errorCallback, 'XGPush', 'registerPush', account ? [account] : []);
+    exec(successCallback, errorCallback, 'XGPush', 'registerPush', [account]);
   };
 
   this.unRegisterPush = function (successCallback, errorCallback) {
@@ -98,15 +98,17 @@ function XGPush() {
     );
 
     document.addEventListener('deviceready', function () {
-      me.registerPush(null, function (info) {
-        console.log('[XGPush] RegisterPush: ', info);
+
+      me.registerPush(null, function () {
+        console.log('[XGPush] RegisterPush: done');
         me.getToken(function (token) {
           me.channels.token.fire(token);
         });
       }, function (e) {
-        console.log('[ERROR] RegisterPush: ', e);
+        console.log('[ERROR] RegisterPush: ' + e.message);
         me.channels.token.fire(null);
       });
+
     }, false);
 
   });
