@@ -156,7 +156,7 @@ public class XGPushPlugin extends CordovaPlugin {
                     String account = (data != null && data.length() > 0) ? data.getString(0) : null;
                     XGIOperateCallback reply = new XGPushCallback(callback);
 
-                    if (TextUtils.isEmpty(account)) {
+                    if (TextUtils.isEmpty(account) || account.equals("null")) {
                         Log.d(TAG, "> register public");
                         XGPushManager.registerPush(context, reply);
                     } else {
@@ -180,7 +180,7 @@ public class XGPushPlugin extends CordovaPlugin {
                     String account = (data != null && data.length() > 0) ? data.getString(0) : null;
                     XGIOperateCallback reply = new XGPushCallback(callback);
 
-                    if (TextUtils.isEmpty(account)) {
+                    if (TextUtils.isEmpty(account) || account.equals("null")) {
                         Log.d(TAG, "> unregister public");
                         XGPushManager.unregisterPush(context);
                         callback.success();
