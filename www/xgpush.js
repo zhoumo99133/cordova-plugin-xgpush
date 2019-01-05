@@ -94,8 +94,7 @@ function XGPush() {
           me.channels[event.type].fire(event);
         }
       },
-      null, 'XGPush', 'addListener', [],
-    );
+      null, 'XGPush', 'addListener', []);
 
     document.addEventListener('deviceready', function () {
 
