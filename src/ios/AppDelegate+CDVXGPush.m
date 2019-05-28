@@ -57,7 +57,7 @@
 
 #ifdef DEBUG
     NSLog(@"[XGPushPlugin] device token is %@",deviceTokenStr);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"推送注册失败" message:deviceTokenStr delegate:self cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"推送注册成功" message:deviceTokenStr delegate:self cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
     [alert show];
 #endif
 }
